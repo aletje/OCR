@@ -1,0 +1,66 @@
+library(reshape)
+library(reshape2)
+library( dplyr)
+library(plyr)
+library(stringr)
+
+OCR <- "C:/Users/aleksatj/Desktop/K2015.txt"
+
+# Read file
+conn <- file(OCR, open="rt")
+lines <- readLines(conn)
+close(conn)
+
+# As matrix
+dfkid <- as.data.frame(lines)
+mkid <- as.matrix(dfkid)
+
+# Regular expression, only KID startvalue == 100000
+idx <- gregexpr("^[100000]", mkid) # only KID starting with "100000"
+
+# Find all positions
+pos <- which(idx == "1")
+
+# Return result
+result <- mkid[pos]
+
+# Make columns
+result2 <- as.matrix(colsplit(string = result, 
+                              pattern = " ", 
+                              names = c("V1", "V2", "V3", "V4")
+                              ))
+
+# Make a new subset without BBS dato ( v2 == 182)
+subs <- subset(result2, result2[,2]!="182")
+msubs <- as.matrix(subs)
+x <- msubs[,1]
+y <- msubs[,4]
+
+# Find the positions where we have whitespace
+idx <- gregexpr("\\s+", y)
+pos1 <- which(idx >= "1")
+pos2 <- which(idx == "-1")
+
+# Extract numbers
+y1 <- substring(y[pos1], 10)
+y2 <- y[pos2]
+
+# Matrices
+m1 <- cbind(x[pos1], y1)
+m2 <- cbind(x[pos2], y2)
+
+# Extract membership number
+# pos 14:19
+
+sec1 <- substring(m1[,1], 14, 19)
+sec2 <- substring(m2[,1], 14, 19)
+
+mat1 <- as.data.frame(cbind(m1, sec1))
+mat2 <- as.data.frame(cbind(m2, sec2))
+
+
+
+write.table(mat1,"File1.csv", sep="\t", row.names=F, col.names=F)
+write.table(mat2, file="File2.csv", sep ="\t", row.names=F, col.names=F)
+
+# Make function to find overpaid
