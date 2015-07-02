@@ -1,0 +1,42 @@
+
+### KID2MEMBER Function ###
+
+
+kid2member <- function(datfile){
+
+  
+# Read file
+conn <- file(datfile, open="rt")
+lines <- readLines(conn)
+close(conn)
+
+
+# Extract subtext from lines
+odd_idx <- seq(3, length(lines) -3, 2) # only odd lines
+OCR <- data.frame(x = lines[odd_idx])
+OCR <- as.matrix(OCR)
+OCR <- gsub("\\s+", " ", OCR) # remove extra whitespace
+NOK <- substring(OCR, 42, 49)
+KID <- substring(OCR, 51)
+
+
+# Result matrix
+result <- cbind(KID, NOK)
+
+
+# Regular expression, only KID startvalue == 1
+idx <- gregexpr("^[100000]", KID) # only KID starting with "1"
+
+
+# Find position
+pos <- which(idx == "1")
+
+
+# New matrix
+result2 <- cbind(substring(KID[pos], 14, 19), NOK[pos])
+
+
+# Print results
+return(as.data.frame(result2, row.names = NULL, optional = FALSE))
+
+}
