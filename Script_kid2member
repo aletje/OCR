@@ -1,0 +1,14 @@
+library(reshape)
+library(reshape2)
+library( dplyr)
+library(plyr)
+
+
+
+source("D:/Jobb/NBF/functionsR/KID2MEMBER.R")
+source("D:/Jobb/NBF/functionsR/KID4ALL.R")
+
+lst <- "C:/Users/aleksatj/Desktop/lst.CSV"
+datfile <- "filen.dat"
+
+kontingent <- kid2member(datfile)
