@@ -1,0 +1,20 @@
+library(reshape)
+library(reshape2)
+library( dplyr)
+library(plyr)
+library(stringr)
+
+
+conn <- file("C:/Users/aleksatj/Desktop/funfact.txt", open="rt")
+lines <- readLines(conn)
+close(conn)
+
+navn <- colsplit(lines, pattern=c(" "), names=c("Fornavn", "mellomnavn"))
+navn <- as.matrix(navn)
+
+fnavn <- navn[, 1]
+
+table(navn)
+
+idx <- which(table(navn) > "600")
+fnavn[idx]
