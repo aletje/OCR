@@ -1,0 +1,54 @@
+### kid2member ###
+
+library(xlsx)
+library(reshape)
+library(paste2)
+library(Hmisc)
+library(stringr)
+
+conn <- file("myfile", open="rt")
+lines <- readLines(conn)
+close(conn)
+
+odd_idx <- seq(1, lenght(lines), 2) # extracts only odd positions
+kid_nr <- data.frame(x = lines[odd_idx])
+
+# making a one column matrix of chrvec
+kid_nr_mat <- matrix(unlist(kid_nr), 
+length(kid_nr[[1]]), length(kid_nr))
+
+# remove extra whitespace
+tmat <- gsub("\\s+", " ", kid_nr_mat)
+
+
+# slicing
+x <- substring(tmat, 42, 49)
+y <- substring(tmat, 51)
+m <- cbind(x, y)
+q <- substring(m[,2], 14, 19)
+fmat <- cbind(x, q)
+
+# read xlsx
+lst <- read.xlsx("myfile.xlsx", sheetName="Worksheet")
+lst <- as.data.frame(lst)
+lst <- as.matrix(x)
+
+num <- as.matrix(lst[,1])
+fname <- as.matrix(lst[,2])
+lname <- as.matrix(lst[,3])
+oldnum <- as.matrix(lst[,4])
+
+# example pattern
+pattern <- q[1]
+
+# match pattern
+m <- regexpr(pattern, x)
+find <- regmatches(x, m)
+m2 <- as.matrix(m)
+linenr <- which(m2 == "1")
+member <- y[linenr]
+qq <- as.matrix(fname[linenr])
+xx <- as.matrix(lname[linenr])
+
+# result
+result <-cbind(fmat[[1]], member, qq, xx)
