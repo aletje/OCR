@@ -1,1 +1,1 @@
-# This repository contains source code for kid project at NBF
+# OCR project - manipulating dataset into usable form
