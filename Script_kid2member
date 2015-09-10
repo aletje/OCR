@@ -1,12 +1,11 @@
 library(reshape)
 library(reshape2)
-library( dplyr)
+library(dplyr)
 library(plyr)
 
 
 
-source("D:/Jobb/NBF/functionsR/KID2MEMBER.R")
-source("D:/Jobb/NBF/functionsR/KID4ALL.R")
+source("filepath.function")
 
 lst <- "C:/Users/aleksatj/Desktop/lst.CSV"
 datfile <- "filen.dat"
