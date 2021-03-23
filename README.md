@@ -1,5 +1,5 @@
 # Data wrangling with R 
 
 ## Purpose 
-- Manipulating OCR text file into usable format 
-- extracting info from OCR characters
+- Manipulate data into usable format
+- `Kid2Memeber` extracts memmership info stored in OCR text file
